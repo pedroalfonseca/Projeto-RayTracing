@@ -1,2 +1,2 @@
-# projeto_raytracing
-Projeto Ray-tracing referente à disciplina IF680 - Processamento Gráfico (PG), do semestre 2022.2
+# Projeto Ray-tracing
+Implementação do algoritmo de renderização *Ray-tracing*.
