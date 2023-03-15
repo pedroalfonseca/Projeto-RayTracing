@@ -83,7 +83,7 @@ inline Vector_3D operator/(const Vector_3D &lhs, const double rhs) {
 
 inline Vector_3D cross_product(const Vector_3D &lhs, const Vector_3D &rhs) {
     return {(lhs.y * rhs.z) - (lhs.z * rhs.y),
-            (lhs.y * rhs.x) - (lhs.x * rhs.z),
+            (lhs.z * rhs.x) - (lhs.x * rhs.z),
             (lhs.x * rhs.y) - (lhs.y * rhs.x)};
 }
 
