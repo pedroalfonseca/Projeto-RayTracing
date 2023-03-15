@@ -11,19 +11,19 @@ inline double to_radians(const double degrees) { return (degrees * pi) / 180; }
 
 inline double random_double() { return rand() / (RAND_MAX + 1.0); }
 
-inline double random_double(const double min, const double max) {
+inline double bounded_random_double(const double min, const double max) {
     return min + ((max - min) * random_double());
 }
 
-inline double inverse_sqrt(const double number) {
+inline double inverse_sqrt(const double val) {
     long long i;
     double half, result;
 
-    half = number * 0.5;
-    result = number;
-    i  = *(long long *)&result;
-    i  = 0x5fe6eb50c7b537a9 - (i >> 1);
-    result  = *(double *)&i;
+    half = val * 0.5;
+    result = val;
+    i = *(long long *)&result;
+    i = 0x5fe6eb50c7b537a9 - (i >> 1);
+    result = *(double *)&i;
     result *= 1.5 - (half * result * result);
 
     return result;

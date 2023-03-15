@@ -1,6 +1,5 @@
 #include "Camera.hpp"
-#include "color_utils.hpp"
-#include "Sphere.hpp"
+#include "Scene.hpp"
 
 // Image
 
@@ -16,8 +15,15 @@ const Camera camera;
 
 // World
 
-Sphere spheres[2]{{Point_3D{0, 0, -1}, 0.5},
-                  {Point_3D{0, -100.5, -1}, 100}};
+const Material ground{DIFFUSE, Color{0.3, 0.4, 0.1}, 0};
+const Material center{DIFFUSE, Color{0.5, 0.1, 0.1}, 0};
+const Material left{SPECULAR, Color{0.8, 0.8, 0.8}, 0};
+const Material right{SPECULAR, Color{0.8, 0.6, 0.2}, 1};
+
+Sphere spheres[4]{{Point_3D{0, -100.5, -1}, 100, ground},
+                  {Point_3D{0, 0, -1}, 0.5, center},
+                  {Point_3D{-1, 0, -1}, 0.5, left},
+                  {Point_3D{1, 0, -1}, 0.5, right}};
 
 // Render
 
@@ -26,14 +32,17 @@ Color shade(const Ray &ray, int depth) {
 
     if (depth <= 0) return Color();
 
-    if (intersect_all(spheres, 2, ray, 0.001, infinity, info)) {
-        Point_3D target = info.point
-                          + Vector_3D::random_in_hemisphere(info.face_normal);
-        return 0.5 * shade(Ray{info.point, target - info.point}, depth - 1);
+    if (intersect_all(spheres, 4, ray, 0.001, infinity, info)) {
+        Ray scattered;
+        Color attenuation;
+        if (info.material.scatter(ray, info, attenuation, scattered))
+            return attenuation * shade(scattered, depth - 1);
+
+        return Color{0, 0, 0};
     }
 
-    Vector_3D unit_vector = ray.direction.normalized();
-    double t = 0.5 * (unit_vector.y + 1);
+    Vector_3D uvec = unit_vector(ray.direction);
+    double t = 0.5 * (uvec.y + 1);
 
     return ((1 - t) * Color{1, 1, 1}) + (t * Color{0.5, 0.7, 1});
 }
