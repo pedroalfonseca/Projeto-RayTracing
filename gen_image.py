@@ -12,7 +12,7 @@ def main():
     print("Done.\n")
 
     print("Rendering image...")
-    system("./a.out")
+    system("./a.out > image.ppm")
     print("Done.\n")
 
     print("Generating PNG file...")
