@@ -14,25 +14,23 @@ public:
         data.fill(0.0);
     }
 
-    Vector(const std::initializer_list<double> &input_list)
+    Vector(const std::initializer_list<double> &list)
     {
-        assert(input_list.size() == N);
+        assert(list.size() == N);
 
         for (size_t i = 0; i < N; i++)
-            data[i] = (input_list.begin())[i];
+            data[i] = (list.begin())[i];
     }
 
-    Vector(const std::array<double, N> &input_array)
+    Vector(const std::array<double, N> &arr)
+        : data(arr)
     {
-        for (size_t i = 0; i < N; i++)
-            data[i] = input_array[i];
     }
 
-    Vector(const Vector<N> &input_vector)
-    {
-        for (size_t i = 0; i < N; i++)
-            data[i] = input_vector[i];
-    }
+    Vector(const Vector<N> &other) = default;
+
+    Vector<N> &
+    operator=(const Vector<N> &other) = default;
 
     double
     operator[](const size_t i) const
@@ -43,12 +41,12 @@ public:
     Vector<N>
     operator-() const
     {
-        std::array<double, N> input_array;
+        std::array<double, N> arr;
 
         for (size_t i = 0; i < N; i++)
-            input_array[i] = -data[i];
+            arr[i] = -data[i];
 
-        return {input_array};
+        return {arr};
     }
 
     Vector<N> &
@@ -124,9 +122,9 @@ inline Vector<N>
 operator+(const Vector<N> &lhs,
           const Vector<N> &rhs)
 {
-    Vector<N> input_vector{lhs};
+    Vector<N> vec{lhs};
 
-    return {input_vector += rhs};
+    return vec += rhs;
 }
 
 template<size_t N>
@@ -134,9 +132,9 @@ inline Vector<N>
 operator-(const Vector<N> &lhs,
           const Vector<N> &rhs)
 {
-    Vector<N> input_vector{lhs};
+    Vector<N> vec{lhs};
 
-    return {input_vector -= rhs};
+    return vec -= rhs;
 }
 
 template<size_t N>
@@ -144,9 +142,9 @@ inline Vector<N>
 operator*(const Vector<N> &lhs,
           const Vector<N> &rhs)
 {
-    Vector<N> input_vector{lhs};
+    Vector<N> vec{lhs};
 
-    return {input_vector *= rhs};
+    return vec *= rhs;
 }
 
 template<size_t N>
@@ -154,9 +152,9 @@ inline Vector<N>
 operator*(const Vector<N> &lhs,
           const double    &rhs)
 {
-    Vector<N> input_vector{lhs};
+    Vector<N> vec{lhs};
 
-    return {input_vector *= rhs};
+    return vec *= rhs;
 }
 
 template<size_t N>
@@ -164,9 +162,24 @@ inline Vector<N>
 operator*(const double    &lhs,
           const Vector<N> &rhs)
 {
-    Vector<N> input_vector{rhs};
+    Vector<N> vec{rhs};
 
-    return {input_vector *= lhs};
+    return vec *= lhs;
+}
+
+template<size_t M, size_t N>
+inline Vector<M>
+operator*(const Matrix<M, N> &lhs,
+          const Vector<N>    &rhs)
+{
+    std::array<double, M> arr;
+    arr.fill(0.0);
+
+    for (size_t i = 0; i < M; i++)
+        for (size_t j = 0; j < N; j++)
+            arr[i] += lhs[i][j] * rhs[j];
+
+    return {arr};
 }
 
 template<size_t N>
@@ -208,12 +221,12 @@ template<size_t N>
 inline Vector<N>
 random_vector()
 {
-    std::array<double, N> input_array;
+    std::array<double, N> arr;
 
     for (size_t i = 0; i < N; i++)
-        input_array[i] = random_double();
+        arr[i] = random_double();
 
-    return {input_array};
+    return {arr};
 }
 
 template<size_t N>
@@ -221,12 +234,12 @@ inline Vector<N>
 bounded_random_vector(const double min,
                       const double max)
 {
-    std::array<double, N> input_array;
+    std::array<double, N> arr;
 
     for (size_t i = 0; i < N; i++)
-        input_array[i] = bounded_random_double(min, max);
+        arr[i] = bounded_random_double(min, max);
 
-    return {input_array};
+    return {arr};
 }
 
 template<size_t N>

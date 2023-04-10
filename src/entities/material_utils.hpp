@@ -60,7 +60,8 @@ class Specular : public Material {
     double fuzz;
 
 public:
-    Specular(const Color &a, const double f)
+    Specular(const Color  &a,
+             const double  f)
         : albedo(a)
         , fuzz(f)
     {
@@ -72,12 +73,12 @@ public:
                   Color          &attenuation,
                   Ray            &scattered) const override
     {
-        const Vector<3> reflected = reflected_vector(unit_vector(r_in.get_direction()), info.face_normal);
+        const Vector<3> reflected = reflected_vector(unit_vector(r_in.direction), info.face_normal);
 
         scattered   = {info.point, reflected + fuzz * random_vector_in_unit_sphere<3>()};
         attenuation = albedo;
 
-        return dot_product(scattered.get_direction(), info.face_normal) > 0;
+        return dot_product(scattered.direction, info.face_normal) > 0;
     }
 };
 
@@ -100,7 +101,7 @@ public:
 
         const double refraction_ratio = info.intersects_front_face ? (1 / refraction_index) : refraction_index;
 
-        const Vector<3> unit_direction = unit_vector(r_in.get_direction());
+        const Vector<3> unit_direction = unit_vector(r_in.direction);
         const double    cos_theta      = fmin(dot_product(-unit_direction, info.face_normal), 1.0);
         const double    sin_theta      = sqrt(1.0 - cos_theta * cos_theta);
         const bool      cannot_refract = (refraction_ratio * sin_theta) > 1.0;
@@ -149,11 +150,11 @@ public:
     }
 };
 
-const auto grass  = std::make_shared<Diffuse>(Color{0.3,  0.4, 0.1 });
-const auto rubber = std::make_shared<Diffuse>(Color{0.5,  0.1, 0.1 });
-const auto aqua   = std::make_shared<Diffuse>(Color{0.01, 0.5, 0.31});
+const auto olive     = std::make_shared<Diffuse>(Color{ 0.3, 0.4,  0.1});
+const auto crimson   = std::make_shared<Diffuse>(Color{ 0.5, 0.1,  0.1});
+const auto turquoise = std::make_shared<Diffuse>(Color{0.01, 0.5, 0.31});
 
-auto checker = std::make_shared<Checker>(Color{0.0, 0.0, 0.0}, Color{1.0, 1.0, 1.0});
+      auto checker = std::make_shared<Checker>(Color{0.0, 0.0, 0.0}, Color{1.0, 1.0, 1.0});
 const auto chess   = std::make_shared<Diffuse>(checker);
 
 const auto mirror = std::make_shared<Specular>(Color{0.8, 0.8, 0.8}, 0.0);

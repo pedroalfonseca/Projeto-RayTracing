@@ -4,7 +4,6 @@
 #include "Camera.hpp"
 #include "Scene.hpp"
 
-
 class Renderer {
     size_t img_width;
     size_t img_height;
@@ -13,9 +12,9 @@ class Renderer {
 
 public:
     Renderer(const size_t iw,
-           const size_t ih,
-           const size_t spp,
-           const size_t md)
+             const size_t ih,
+             const size_t spp,
+             const size_t md)
         : img_width(iw)
         , img_height(ih)
         , samples_per_pixel(spp)

@@ -1,7 +1,6 @@
 #ifndef TEXTURE_UTILS_HPP
 #define TEXTURE_UTILS_HPP
 
-#include "../optics/color_utils.hpp"
 #include "../optics/Ray.hpp"
 
 #include <memory>
@@ -52,10 +51,10 @@ public:
     {
     }
 
-    Checker(std::shared_ptr<Texture> o,
-            std::shared_ptr<Texture> e)
-        : odd(o)
-        , even(e)
+    Checker(std::shared_ptr<Texture> t1,
+            std::shared_ptr<Texture> t2)
+        : odd(t1)
+        , even(t2)
     {
     }
 

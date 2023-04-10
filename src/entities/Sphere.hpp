@@ -40,9 +40,9 @@ public:
               const double          t_max,
                     Intersect_info &info) const override
     {
-        const Vector<3> oc     = r.get_origin() - center;
-        const double    a      = r.get_direction().norm_squared();
-        const double    half_b = dot_product(oc, r.get_direction());
+        const Vector<3> oc     = r.origin - center;
+        const double    a      = r.direction.norm_squared();
+        const double    half_b = dot_product(oc, r.direction);
         const double    c      = oc.norm_squared() - radius * radius;
         const double    delta  = half_b * half_b - a * c;
 
@@ -57,15 +57,15 @@ public:
             return val < min || val > max;
         };
 
-        double root = (-half_b - sqrt_delta) / a;
-        if (is_invalid(root, t_min, t_max)) {
-            root = (-half_b + sqrt_delta) / a;
+        double t = (-half_b - sqrt_delta) / a;
+        if (is_invalid(t, t_min, t_max)) {
+            t = (-half_b + sqrt_delta) / a;
 
-            if (is_invalid(root, t_min, t_max))
+            if (is_invalid(t, t_min, t_max))
                 return false;
         }
 
-        info.t        = root;
+        info.t        = t;
         info.point    = r.at(info.t);
         info.material = material;
 

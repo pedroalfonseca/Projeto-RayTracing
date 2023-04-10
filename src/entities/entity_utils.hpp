@@ -1,7 +1,6 @@
 #ifndef ENTITY_UTILS_HPP
 #define ENTITY_UTILS_HPP
 
-#include "../optics/color_utils.hpp"
 #include "../optics/Ray.hpp"
 #include "material_utils.hpp"
 
@@ -22,7 +21,7 @@ struct Intersect_info {
     set_face_normal(const Ray       &r,
                     const Vector<3> &outward_normal)
     {
-        intersects_front_face = dot_product(r.get_direction(), outward_normal) < 0.0;
+        intersects_front_face = dot_product(r.direction, outward_normal) < 0.0;
 
         face_normal = intersects_front_face ? outward_normal : -outward_normal;
     }

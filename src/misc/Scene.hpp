@@ -1,6 +1,7 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "../entities/Plane.hpp"
 #include "../entities/Sphere.hpp"
 
 #include <vector>
@@ -33,18 +34,24 @@ public:
     {
         Intersect_info cur_info;
 
-        bool   intersect = false;
-        double cur_t_max = t_max;
+        bool   intersect   = false;
+        double cur_closest = t_max;
 
         for (auto &entity : entities) {
-            if (entity->intersect(r, t_min, cur_t_max, cur_info)) {
-                intersect = true;
-                cur_t_max = cur_info.t;
-                info      = cur_info;
+            if (entity->intersect(r, t_min, cur_closest, cur_info)) {
+                intersect   = true;
+                cur_closest = cur_info.t;
+                info        = cur_info;
             }
         }
 
         return intersect;
+    }
+
+    std::shared_ptr<Entity>
+    operator[](const size_t i)
+    {
+        return entities[i];
     }
 };
 

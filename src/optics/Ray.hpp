@@ -1,15 +1,12 @@
 #ifndef RAY_HPP
 #define RAY_HPP
 
-#include "../math/Vector.hpp"
+#include "optics_utils.hpp"
 
-using Point = Vector<3>;
-
-class Ray {
+struct Ray {
     Point     origin;
     Vector<3> direction;
 
-public:
     Ray()
     {
     }
@@ -19,18 +16,6 @@ public:
         : origin(orig)
         , direction(dir)
     {
-    }
-
-    Point
-    get_origin() const
-    {
-        return origin;
-    }
-
-    Vector<3>
-    get_direction() const
-    {
-        return direction;
     }
 
     Point
