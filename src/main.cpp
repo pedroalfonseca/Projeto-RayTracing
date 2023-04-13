@@ -53,10 +53,14 @@ main()
     const std::vector<std::array<size_t, 3>> indices{{0, 1, 2},
                                                      {1, 2, 3}};
 
+/*
     const std::vector<Vector<3>> triangle_normals{Vector<3>{ 0.0,    0.0,  1.0},
                                                   Vector<3>{-0.41, -0.42, 0.42}};
+*/
 
-    scene.add(std::make_shared<Mesh>(vertices, indices, triangle_normals, crimson));
+    scene.add(std::make_shared<Mesh>(vertices, indices, crimson));
+
+    // Movimentação da câmera
 
     // Visão do lado esquerdo
     //camera.move(-4.0, 0.0, -3.0);
@@ -73,11 +77,20 @@ main()
     // Visão afastado
     //camera.move(0.0, 0.0, 7.0);
 
-    // Movimentação de entidades
+    // Movimentação das entidades
+
+    // Esfera
     //scene[2]->move( 1.0, 1.0, -2.0);
+
+    // Malha
     //scene[6]->move(-1.0, 0.0,  0.0);
     //scene[6]->move( 0.0, 0.0, -5.0);
+
+    // Toda a cena (aproximação)
     //scene.move(0.0,  0.0,  2.0);
+    //camera.v_tilt(10);
+
+    // Toda a cena (afastamento)
     //scene.move(0.0, 0.45, -3.0);
 
     renderer.render(camera, background, scene);

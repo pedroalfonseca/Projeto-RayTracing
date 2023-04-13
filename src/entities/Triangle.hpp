@@ -16,12 +16,11 @@ public:
     Triangle(const Point                     &p1,
              const Point                     &p2,
              const Point                     &p3,
-             const Vector<3>                 &n,
                    std::shared_ptr<Material>  m)
         : vertices({p1, p2, p3})
-        , normal(n)
         , material(m)
     {
+        normal = unit_vector(cross_product(vertices[1] - vertices[0], vertices[2] - vertices[0]));
     }
 
     virtual bool
