@@ -3,6 +3,7 @@
 
 #include "../entities/Plane.hpp"
 #include "../entities/Sphere.hpp"
+#include "../entities/Mesh.hpp"
 
 #include <vector>
 
