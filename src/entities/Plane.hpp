@@ -47,6 +47,14 @@ public:
 
         return false;
     }
+
+    virtual void
+    move(const double x,
+         const double y,
+         const double z) override
+    {
+        point = translate(point, x, y, z);
+    }
 };
 
 #endif

@@ -56,6 +56,15 @@ public:
 
         return intersect;
     }
+
+    virtual void
+    move(const double x,
+         const double y,
+         const double z) override
+    {
+        for (auto &triangle : triangles)
+            triangle.move(x, y, z);
+    }
 };
 
 #endif

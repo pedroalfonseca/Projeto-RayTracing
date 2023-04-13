@@ -49,6 +49,15 @@ public:
         return intersect;
     }
 
+    virtual void
+    move(const double x,
+         const double y,
+         const double z) override
+    {
+        for (auto &entity : entities)
+            entity->move(x, y, z);
+    }
+
     std::shared_ptr<Entity>
     operator[](const size_t i)
     {

@@ -78,6 +78,14 @@ public:
 
         return true;
     }
+
+    virtual void
+    move(const double x,
+         const double y,
+         const double z) override
+    {
+        center = translate(center, x, y, z);
+    }
 };
 
 #endif

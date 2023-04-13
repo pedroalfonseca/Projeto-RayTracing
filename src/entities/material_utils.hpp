@@ -56,7 +56,7 @@ public:
 };
 
 class Specular : public Material {
-    Color albedo;
+    Color  albedo;
     double fuzz;
 
 public:

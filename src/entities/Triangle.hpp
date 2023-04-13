@@ -61,6 +61,15 @@ public:
 
         return false;
     }
+
+    virtual void
+    move(const double x,
+         const double y,
+         const double z) override
+    {
+        for (size_t i = 0; i < 3; i++)
+            vertices[i] = translate(vertices[i], x, y, z);
+    }
 };
 
 #endif

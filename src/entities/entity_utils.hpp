@@ -34,6 +34,11 @@ public:
               const double          t_min,
               const double          t_max,
                     Intersect_info &info) const = 0;
+
+    virtual void
+    move(const double x,
+         const double y,
+         const double z) = 0;
 };
 
 #endif

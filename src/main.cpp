@@ -40,12 +40,11 @@ main()
 
     scene.add(std::make_shared<Sphere>(Point{0.0, 1.5,  1.5}, 1.0, light));
 
-/*
     scene.add(std::make_shared<Sphere>(Point{ 0.0,  0.0, -1.0},   0.5, turquoise));
     scene.add(std::make_shared<Sphere>(Point{ 1.0,  0.0, -1.0},   0.5,    mirror));
     scene.add(std::make_shared<Sphere>(Point{-1.0,  0.0, -1.0},   0.5,     glass));
     scene.add(std::make_shared<Sphere>(Point{-1.0,  0.0, -1.0}, -0.45,     glass));
-*/
+
     const std::vector<Point> vertices{Point{ 0.25,  0.1,  0.0},
                                       Point{-0.25,  0.1,  0.0},
                                       Point{  0.0, 0.35,  0.0},
@@ -59,10 +58,27 @@ main()
 
     scene.add(std::make_shared<Mesh>(vertices, indices, triangle_normals, crimson));
 
+    // Visão do lado esquerdo
     //camera.move(-4.0, 0.0, -3.0);
     //camera.h_tilt(-70);
 
+    // Visão do lado direito
+    //camera.move(4.0, 0.0, -3.0);
+    //camera.h_tilt(70);
+
+    // Visão de cima
+    //camera.move(0.0, 15.0, -3.5);
+    //camera.v_tilt(-90);
+
+    // Visão afastado
     //camera.move(0.0, 0.0, 7.0);
+
+    // Movimentação de entidades
+    //scene[2]->move( 1.0, 1.0, -2.0);
+    //scene[6]->move(-1.0, 0.0,  0.0);
+    //scene[6]->move( 0.0, 0.0, -5.0);
+    //scene.move(0.0,  0.0,  2.0);
+    //scene.move(0.0, 0.45, -3.0);
 
     renderer.render(camera, background, scene);
 }
