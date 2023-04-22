@@ -23,11 +23,11 @@ public:
         , indices(i)
         , material(m)
     {
-        for (size_t i = 0; i < indices.size(); i++) {
-            triangles.emplace_back(vertices[indices[i][0]],
-                                   vertices[indices[i][1]],
-                                   vertices[indices[i][2]],
-                                   material);
+        for (size_t t = 0; t < indices.size(); t++) {
+            triangles.push_back({{vertices[indices[t][0]],
+                                  vertices[indices[t][1]],
+                                  vertices[indices[t][2]]},
+                                 material});
         }
     }
 

@@ -13,11 +13,9 @@ public:
     {
     }
 
-    Triangle(const Point                     &p1,
-             const Point                     &p2,
-             const Point                     &p3,
+    Triangle(const std::array<Point, 3>      &v,
                    std::shared_ptr<Material>  m)
-        : vertices({p1, p2, p3})
+        : vertices(v)
         , material(m)
     {
         normal = unit_vector(cross_product(vertices[1] - vertices[0], vertices[2] - vertices[0]));

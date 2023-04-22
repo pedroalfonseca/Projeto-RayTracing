@@ -13,22 +13,22 @@ public:
               const Point  &p) const = 0;
 };
 
-class Solid : public Texture {
+class Matte : public Texture {
     Color value;
 
 public:
-    Solid()
+    Matte()
     {
     }
 
-    Solid(const double r,
+    Matte(const double r,
           const double g,
           const double b)
         : value{r, g, b}
     {
     }
 
-    Solid(const Color &c)
+    Matte(const Color &c)
         : value(c)
     {
     }
@@ -60,8 +60,8 @@ public:
 
     Checker(const Color &c1,
             const Color &c2)
-        : odd(std::make_shared<Solid>(c1))
-        , even(std::make_shared<Solid>(c2))
+        : odd(std::make_shared<Matte>(c1))
+        , even(std::make_shared<Matte>(c2))
     {
     }
 

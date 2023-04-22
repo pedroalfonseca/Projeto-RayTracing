@@ -4,11 +4,13 @@
 #include "../entities/Plane.hpp"
 #include "../entities/Sphere.hpp"
 #include "../entities/Mesh.hpp"
+//#include "../optics/Light.hpp"
 
 #include <vector>
 
 class Scene : public Entity {
     std::vector<std::shared_ptr<Entity>> entities;
+    //std::vector<Light>                   lights;
 
 public:
     Scene()
@@ -16,16 +18,18 @@ public:
     }
 
     void
-    add(std::shared_ptr<Entity> entity)
+    add_entity(std::shared_ptr<Entity> entity)
     {
         entities.push_back(entity);
     }
 
+/*
     void
-    clear()
+    add_light(const Light &light)
     {
-        entities.clear();
+        lights.push_back(light);
     }
+*/
 
     virtual bool
     intersect(const Ray            &r,
@@ -56,12 +60,6 @@ public:
     {
         for (auto &entity : entities)
             entity->move(x, y, z);
-    }
-
-    std::shared_ptr<Entity>
-    operator[](const size_t i)
-    {
-        return entities[i];
     }
 };
 

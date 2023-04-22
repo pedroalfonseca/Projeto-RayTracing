@@ -28,7 +28,7 @@ class Diffuse : public Material {
 
 public:
     Diffuse(const Color &a)
-        : albedo(std::make_shared<Solid>(a))
+        : albedo(std::make_shared<Matte>(a))
     {
     }
 
@@ -78,7 +78,7 @@ public:
         scattered   = {info.point, reflected + fuzz * random_vector_in_unit_sphere<3>()};
         attenuation = albedo;
 
-        return dot_product(scattered.direction, info.face_normal) > 0;
+        return dot_product(scattered.direction, info.face_normal) > 0.0;
     }
 };
 
@@ -128,7 +128,7 @@ public:
     }
 
     Light(const Color &c)
-        : emit(std::make_shared<Solid>(c))
+        : emit(std::make_shared<Matte>(c))
     {
     }
 
@@ -150,14 +150,15 @@ public:
     }
 };
 
-const auto olive     = std::make_shared<Diffuse>(Color{ 0.3, 0.4,  0.1});
-const auto crimson   = std::make_shared<Diffuse>(Color{ 0.5, 0.1,  0.1});
-const auto turquoise = std::make_shared<Diffuse>(Color{0.01, 0.5, 0.31});
+const auto olive     = std::make_shared<Diffuse>(Color{  0.3,  0.4,  0.1});
+const auto crimson   = std::make_shared<Diffuse>(Color{  0.5,  0.1,  0.1});
+const auto turquoise = std::make_shared<Diffuse>(Color{ 0.01,  0.5, 0.31});
 
       auto checker = std::make_shared<Checker>(Color{0.0, 0.0, 0.0}, Color{1.0, 1.0, 1.0});
 const auto chess   = std::make_shared<Diffuse>(checker);
 
 const auto mirror = std::make_shared<Specular>(Color{0.8, 0.8, 0.8}, 0.0);
+const auto metal  = std::make_shared<Specular>(Color{0.8, 0.8, 0.8}, 1.0);
 const auto gold   = std::make_shared<Specular>(Color{0.8, 0.6, 0.2}, 1.0);
 
 const auto glass = std::make_shared<Dielectric>(1.5);

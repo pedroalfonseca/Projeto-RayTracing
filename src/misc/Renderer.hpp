@@ -10,18 +10,6 @@ class Renderer {
     size_t samples_per_pixel;
     size_t max_depth;
 
-public:
-    Renderer(const size_t iw,
-             const size_t ih,
-             const size_t spp,
-             const size_t md)
-        : img_width(iw)
-        , img_height(ih)
-        , samples_per_pixel(spp)
-        , max_depth(md)
-    {
-    }
-
     Color
     shade(const Color  &background,
           const Scene  &scene,
@@ -44,6 +32,18 @@ public:
             return emitted;
 
         return emitted + (attenuation * shade(background, scene, scattered, depth - 1));
+    }
+
+public:
+    Renderer(const size_t iw,
+             const size_t ih,
+             const size_t spp,
+             const size_t md)
+        : img_width(iw)
+        , img_height(ih)
+        , samples_per_pixel(spp)
+        , max_depth(md)
+    {
     }
 
     void

@@ -35,6 +35,10 @@ class Camera {
     }
 
 public:
+    Camera()
+    {
+    }
+
     Camera(const Point     &look_from,
            const Point     &look_at,
            const Vector<3> &up,
@@ -57,6 +61,9 @@ public:
         vertical   = viewport_height * v;
         lower_left = origin - (horizontal / 2) - (vertical / 2) - w;
     }
+
+    Camera &
+    operator=(const Camera &other) = default;
 
     Ray
     get_ray(const double s,
