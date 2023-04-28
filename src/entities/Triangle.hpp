@@ -4,17 +4,17 @@
 #include "entity_utils.hpp"
 
 class Triangle : public Entity {
-    std::array<Point, 3>      vertices;
-    Vector<3>                 normal;
-    std::shared_ptr<Material> material;
+    std::array<Point, 3> vertices;
+    Vector<3>            normal;
+    Material             material;
 
 public:
     Triangle()
     {
     }
 
-    Triangle(const std::array<Point, 3>      &v,
-                   std::shared_ptr<Material>  m)
+    Triangle(const std::array<Point, 3> &v,
+             const Material             &m)
         : vertices(v)
         , material(m)
     {
@@ -22,10 +22,10 @@ public:
     }
 
     virtual bool
-    intersect(const Ray            &r,
-              const double          t_min,
-              const double          t_max,
-                    Intersect_info &info) const override
+    intersect(const Ray          &r,
+              const double        t_min,
+              const double        t_max,
+                    Intersection &info) const override
     {
         const Vector<3> edge1 = vertices[1] - vertices[0];
         const Vector<3> edge2 = vertices[2] - vertices[0];

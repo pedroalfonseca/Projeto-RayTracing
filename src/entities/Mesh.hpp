@@ -9,7 +9,7 @@ class Mesh : public Entity {
     std::vector<Point>                 vertices;
     std::vector<std::array<size_t, 3>> indices;
     std::vector<Triangle>              triangles;
-    std::shared_ptr<Material>          material;
+    Material                           material;
 
 public:
     Mesh()
@@ -18,7 +18,7 @@ public:
 
     Mesh(const std::vector<Point>                 &v,
          const std::vector<std::array<size_t, 3>> &i,
-               std::shared_ptr<Material>           m)
+         const Material                           &m)
         : vertices(v)
         , indices(i)
         , material(m)
@@ -32,12 +32,12 @@ public:
     }
 
     virtual bool
-    intersect(const Ray            &r,
-              const double          t_min,
-              const double          t_max,
-                    Intersect_info &info) const override
+    intersect(const Ray          &r,
+              const double        t_min,
+              const double        t_max,
+                    Intersection &info) const override
     {
-        Intersect_info cur_info;
+        Intersection cur_info;
 
         bool   intersect   = false;
         double cur_closest = t_max;

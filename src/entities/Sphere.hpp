@@ -4,9 +4,9 @@
 #include "entity_utils.hpp"
 
 class Sphere : public Entity {
-    Point                     center;
-    double                    radius;
-    std::shared_ptr<Material> material;
+    Point    center;
+    double   radius;
+    Material material;
 
     static std::pair<double, double>
     get_uv(const Point &p)
@@ -25,9 +25,9 @@ public:
     {
     }
 
-    Sphere(const Point                     &c,
-           const double                     r,
-                 std::shared_ptr<Material>  m)
+    Sphere(const Point    &c,
+           const double    r,
+           const Material &m)
         : center(c)
         , radius(r)
         , material(m)
@@ -35,10 +35,10 @@ public:
     }
 
     virtual bool
-    intersect(const Ray            &r,
-              const double          t_min,
-              const double          t_max,
-                    Intersect_info &info) const override
+    intersect(const Ray          &r,
+              const double        t_min,
+              const double        t_max,
+                    Intersection &info) const override
     {
         const Vector<3> oc     = r.origin - center;
         const double    a      = r.direction.norm_squared();

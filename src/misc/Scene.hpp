@@ -4,13 +4,27 @@
 #include "../entities/Plane.hpp"
 #include "../entities/Sphere.hpp"
 #include "../entities/Mesh.hpp"
-//#include "../optics/Light.hpp"
+#include "../optics/Light.hpp"
 
 #include <vector>
 
 class Scene : public Entity {
     std::vector<std::shared_ptr<Entity>> entities;
-    //std::vector<Light>                   lights;
+    std::vector<Light>                   lights;
+
+    double
+    get_k_shadow(const Ray    &r,
+               const double  t_min,
+               const double  t_max) const
+    {
+        Intersection cur_info;
+
+        for (auto &entity : entities)
+            if (entity->intersect(r, t_min, t_max, cur_info))
+                return cur_info.material.kt;
+
+        return 1.0;
+    }
 
 public:
     Scene()
@@ -23,26 +37,57 @@ public:
         entities.push_back(entity);
     }
 
-/*
     void
     add_light(const Light &light)
     {
         lights.push_back(light);
     }
-*/
+
+    Color
+    phong(const Point        &cam_origin,
+          const Color        &background,
+          const Ray          &r,
+                Intersection &info) const
+    {
+        const Vector<3> view_direction = unit_vector(info.point - cam_origin);
+
+        const Color ambient_color = background * info.material.ka;
+
+        Color I = ambient_color;
+
+        for (const auto &light : lights) {
+            const Vector<3> light_direction = light.position - info.point;
+
+            const Ray    light_ray{info.point + info.face_normal * 0.01, light_direction};
+            const double k_shadow = get_k_shadow(light_ray, 0.0001, 1);
+
+            const Vector<3> reflected_direction = unit_vector(reflected_vector(-light_direction, info.face_normal));
+
+            const double diffuse_factor = dot_product(light_direction, info.face_normal);
+            const Color  tmp            = light.albedo * info.material.albedo->get_value(info.point);
+            const Color  diffuse_color  = tmp * info.material.kd * fmax(diffuse_factor, 0.0);
+
+            const double specular_factor = pow(dot_product(reflected_direction, view_direction), info.material.p);
+            const Color  specular_color  = light.albedo * info.material.ks * specular_factor;
+
+            I += (diffuse_color + specular_color) * k_shadow;
+        }
+
+        return I;
+    }
 
     virtual bool
-    intersect(const Ray            &r,
-              const double          t_min,
-              const double          t_max,
-                    Intersect_info &info) const override
+    intersect(const Ray          &r,
+              const double        t_min,
+              const double        t_max,
+                    Intersection &info) const override
     {
-        Intersect_info cur_info;
+        Intersection cur_info;
 
         bool   intersect   = false;
         double cur_closest = t_max;
 
-        for (auto &entity : entities) {
+        for (const auto &entity : entities) {
             if (entity->intersect(r, t_min, cur_closest, cur_info)) {
                 intersect   = true;
                 cur_closest = cur_info.t;

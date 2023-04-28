@@ -4,18 +4,18 @@
 #include "entity_utils.hpp"
 
 class Plane : public Entity {
-    Point                     point;
-    Vector<3>                 normal;
-    std::shared_ptr<Material> material;
+    Point     point;
+    Vector<3> normal;
+    Material  material;
 
 public:
     Plane()
     {
     }
 
-    Plane(const Point                     &p,
-          const Vector<3>                 &n,
-                std::shared_ptr<Material>  m)
+    Plane(const Point     &p,
+          const Vector<3> &n,
+          const Material  &m)
         : point(p)
         , normal(n)
         , material(m)
@@ -23,12 +23,12 @@ public:
     }
 
     virtual bool
-    intersect(const Ray            &r,
-              const double          t_min,
-              const double          t_max,
-                    Intersect_info &info) const override
+    intersect(const Ray          &r,
+              const double        t_min,
+              const double        t_max,
+                    Intersection &info) const override
     {
-        constexpr double epsilon = 0.000000000000001;
+        constexpr double epsilon = 0.001; //0.000000000000001;
 
         const double a = dot_product(r.direction, normal);
         if (a > -epsilon && a < epsilon)

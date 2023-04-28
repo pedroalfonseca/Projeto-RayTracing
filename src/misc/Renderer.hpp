@@ -11,27 +11,42 @@ class Renderer {
     size_t max_depth;
 
     Color
-    shade(const Color  &background,
+    shade(const Point  &cam_origin,
+          const Color  &background,
           const Scene  &scene,
           const Ray    &r,
           const size_t  depth)
     {
-        Intersect_info info;
+        Intersection info;
+        Color        emitted;
 
-        if (depth <= 0)
-            return Color{};
+        if (scene.intersect(r, 0.0001, infinity, info)) {
+            emitted += scene.phong(cam_origin, background, r, info);
 
-        if (!scene.intersect(r, 0.001, infinity, info))
-            return background;
+            if (depth <= 0)
+                return emitted;
 
-        Ray   scattered;
-        Color attenuation;
-        Color emitted = info.material->emitted(info.u, info.v, info.point);
+            if (info.material.kr > 0.0) {
+                Ray r_reflected = reflected_ray(r, info.point, info.face_normal);
 
-        if (!info.material->scatter(r, info, attenuation, scattered))
+                emitted += shade(cam_origin, background, scene, r_reflected, depth - 1) * info.material.kr;
+            }
+
+            if (info.material.refraction_index > 0 && info.material.kt > 0) {
+                bool total_reflection = false;
+
+                Ray r_refracted = refracted_ray(r, info.material.refraction_index, info.intersects_front_face,
+                                                info.point, info.face_normal, total_reflection);
+
+                const double k = total_reflection ? info.material.kr : info.material.kt;
+
+                emitted += shade(cam_origin, background, scene, r_refracted, depth - 1) * k;
+            }
+
             return emitted;
+        }
 
-        return emitted + (attenuation * shade(background, scene, scattered, depth - 1));
+        return background;
     }
 
 public:
@@ -62,7 +77,7 @@ public:
 
                     const Ray r = camera.get_ray(hcoef, vcoef);
 
-                    pixel_color += shade(background, scene, r, max_depth);
+                    pixel_color += shade(r.origin, background, scene, r, max_depth);
                 }
 
                 paint_pixel(std::cout, pixel_color, samples_per_pixel);

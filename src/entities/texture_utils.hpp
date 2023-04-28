@@ -2,15 +2,14 @@
 #define TEXTURE_UTILS_HPP
 
 #include "../optics/Ray.hpp"
+#include "../optics/optics_utils.hpp"
 
 #include <memory>
 
 class Texture {
 public:
     virtual Color
-    get_value(const double  u,
-              const double  v,
-              const Point  &p) const = 0;
+    get_value(const Point &p) const = 0;
 };
 
 class Matte : public Texture {
@@ -34,9 +33,7 @@ public:
     }
 
     virtual Color
-    get_value(const double  u,
-              const double  v,
-              const Point  &p) const override
+    get_value(const Point &p) const override
     {
         return value;
     }
@@ -66,16 +63,14 @@ public:
     }
 
     virtual Color
-    get_value(const double  u,
-              const double  v,
-              const Point  &p) const override
+    get_value(const Point &p) const override
     {
         const double sin_product = sin(10 * p[0]) * sin(10 * p[1]) * sin(10 * p[2]);
 
         if (sin_product < 0)
-            return odd->get_value(u, v, p);
-        else
-            return even->get_value(u, v, p);
+            return odd->get_value(p);
+
+        return even->get_value(p);
     }
 };
 

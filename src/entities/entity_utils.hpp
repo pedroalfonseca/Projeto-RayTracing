@@ -2,20 +2,27 @@
 #define ENTITY_UTILS_HPP
 
 #include "../optics/Ray.hpp"
-#include "material_utils.hpp"
+#include "texture_utils.hpp"
 
-#include <memory>
+struct Material {
+    std::shared_ptr<Texture> albedo;
+    double                   refraction_index;
+    double                   ka;
+    double                   kd;
+    double                   ks;
+    double                   kr;
+    double                   kt;
+    double                   p;
+};
 
-class Material;
-
-struct Intersect_info {
-    Point                     point;
-    Vector<3>                 face_normal;
-    double                    t;
-    double                    u;
-    double                    v;
-    bool                      intersects_front_face;
-    std::shared_ptr<Material> material;
+struct Intersection {
+    Point     point;
+    Vector<3> face_normal;
+    double    t;
+    double    u;
+    double    v;
+    bool      intersects_front_face;
+    Material  material;
 
     void
     set_face_normal(const Ray       &r,
@@ -30,10 +37,10 @@ struct Intersect_info {
 class Entity {
 public:
     virtual bool
-    intersect(const Ray            &r,
-              const double          t_min,
-              const double          t_max,
-                    Intersect_info &info) const = 0;
+    intersect(const Ray          &r,
+              const double        t_min,
+              const double        t_max,
+                    Intersection &info) const = 0;
 
     virtual void
     move(const double x,

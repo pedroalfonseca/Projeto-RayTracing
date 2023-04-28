@@ -106,6 +106,17 @@ public:
         return flag;
     }
 
+    bool
+    is_null() const
+    {
+        bool flag = true;
+        for (size_t i = 0; i < N && flag; i++)
+            if (data[i] != 0.0)
+                flag ^= 1;
+
+        return flag;
+    }
+
     double
     norm_squared() const
     {
@@ -284,12 +295,13 @@ refracted_vector(const Vector<N> &incident,
                  const Vector<N> &normal,
                  const double     etai_over_etat)
 {
-    const double cos_theta = fmin(dot_product(-incident, normal), 1.0);
+    const double cos_theta  = dot_product(-incident, normal);
+    const double sin2_theta = (etai_over_etat * etai_over_etat) * (1 - (cos_theta * cos_theta));
 
-    const Vector<N> r_out_perpendicular = etai_over_etat * (incident + cos_theta * normal);
-    const Vector<N> r_out_parallel      = -sqrt(fabs(1.0 - r_out_perpendicular.norm_squared())) * normal;
+    if (sin2_theta > 1.0)
+        return Vector<3>{};
 
-    return r_out_perpendicular + r_out_parallel;
+    return etai_over_etat * incident + (etai_over_etat * cos_theta - sqrt(1 - sin2_theta)) * normal;
 }
 
 #endif

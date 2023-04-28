@@ -1,4 +1,3 @@
-#include "entities/material_utils.hpp"
 #include "misc/Renderer.hpp"
 #include "misc/Scene.hpp"
 
@@ -13,13 +12,16 @@ main(int   argc,
     std::cin.tie(nullptr);
 
     constexpr size_t samples_per_pixel = 100;
-    constexpr size_t max_depth         = 50;
+    constexpr size_t max_depth         = 5;
 
     constexpr size_t img_width  = 400;
     constexpr size_t img_height = 225;
 
-    const Point look_from{0.0, 0.0,  4.0};
-    const Point look_at  {0.0, 0.0, -1.0};
+    //const Point look_from{0.0, 0.0,  4.0};
+    const Point look_from{-2.0, 0.0,  3.0};
+    //const Point look_from{ 0.0, 0.0,  0.0};
+    const Point look_at  { 0.0, 0.0, -1.0};
+    //const Point look_at{ 1.0, 0.0, 0.0};
 
     Camera camera;
 
@@ -29,12 +31,72 @@ main(int   argc,
 
     char scene_option = argv[1][1];
     switch (scene_option) {
+    case 'x':
+        {
+            camera = {look_from, look_at, {0.0, 1.0, 0.0}, 20.0, (static_cast<double>(img_width) / img_height)};
+
+            background = {0.4, 0.4, 0.4};
+
+            Material mat1{std::make_shared<Matte>(Color{ 0.0, 0.0,  1.0}), 1.5, 0.1, 0.0, 0.0, 0.1, 0.9, 3.0};
+            Material mat2{std::make_shared<Matte>(Color{0.08, 1.0, 0.08}), 0.0, 0.6, 0.6, 0.3, 0.0, 0.0, 3.0};
+            Material mat3{std::make_shared<Matte>(Color{ 0.4, 0.0,  1.0}), 0.0, 0.6, 0.6, 0.3, 0.0, 0.0, 3.0};
+
+            Material mat4{std::make_shared<Matte>(Color{1.0, 1.0, 0.0}), 0.0, 0.5, 0.5, 0.1, 0.3, 0.0, 1.0};
+            Material mat5{std::make_shared<Matte>(Color{0.4, 0.0, 1.0}), 0.0, 0.5, 0.5, 0.1, 0.3, 0.0, 2.0};
+
+            Material mat6{std::make_shared<Matte>(Color{0.0, 1.0, 0.0}), 1.5, 0.1, 0.2, 0.0, 0.8, 0.0, 3.0};
+
+            scene.add_light({Point{800.0,  400.0, 100.0}, Color{1.0, 1.0, 1.0}});
+            scene.add_light({Point{500.0, -400.0, 100.0}, Color{1.0, 1.0, 1.0}});
+
+            scene.add_entity(std::make_shared<Sphere>(Point{ 1100.0, 0.0, 0.0}, 300.0, mat1));
+
+            break;
+        }
     case 's':
         {
             camera = {look_from, look_at, {0.0, 1.0, 0.0}, 20.0, (static_cast<double>(img_width) / img_height)};
 
-            background = {0.5, 0.7, 1.0};
+            //background = {0.5, 0.7, 1.0};
+            //background = {0.4, 0.4, 0.4};
 
+            Material mat1{std::make_shared<Matte>(Color{0.2, 1.0, 0.2}), 0.0, 0.6,  0.6, 0.3, 0.0, 0.0, 3.0};
+            Material mat2{std::make_shared<Matte>(Color{1.0, 0.0, 0.0}), 0.0, 0.6,  0.6, 0.3, 0.0, 0.0, 3.0};
+            Material mat3{std::make_shared<Matte>(Color{0.8, 0.8, 0.8}), 0.0, 0.1, 0.05, 0.0, 0.8, 0.0, 3.0};
+            Material mat4{std::make_shared<Matte>(Color{0.0, 0.0, 1.0}), 1.5, 1.0,  0.0, 0.0, 0.1, 0.9, 3.0};
+
+            Material mat5{std::make_shared<Matte>(Color{ 0.0, 0.0,  1.0}), 1.5, 0.1, 0.0, 0.0, 0.1, 0.9, 3.0};
+            Material mat6{std::make_shared<Matte>(Color{0.08, 1.0, 0.08}), 0.0, 0.6, 0.6, 0.3, 0.0, 0.0, 3.0};
+            Material mat7{std::make_shared<Matte>(Color{ 0.4, 0.0,  1.0}), 0.0, 0.6, 0.6, 0.3, 0.0, 0.0, 3.0};
+
+            Material mat8{std::make_shared<Matte>(Color{1.0, 1.0, 0.0}), 0.0, 0.5, 0.5, 0.1, 0.3, 0.0, 1.0};
+            Material mat9{std::make_shared<Matte>(Color{0.4, 0.0, 1.0}), 0.0, 0.5, 0.5, 0.1, 0.3, 0.0, 2.0};
+
+            Material mat10{std::make_shared<Matte>(Color{0.0, 1.0, 0.0}), 1.5, 0.1, 0.2, 0.0, 0.8, 0.0, 3.0};
+
+            //scene.add_light({Point{0.0, 1.5, 2.5}, Color{1.0, 1.0, 1.0}});
+            scene.add_light({Point{0.0, 3.5,  2.5}, Color{1.0, 1.0, 1.0}});
+            //scene.add_light({Point{0.0, 3.5, -3.5}, Color{1.0, 1.0, 1.0}});
+            //scene.add_light({Point{0.0, 3.5, -1.0}, Color{1.0, 1.0, 1.0}});
+
+            scene.add_entity(std::make_shared<Plane>(Point{0.0, -0.5, 0.0}, Vector<3>{0.0, -0.5, 0.0}, mat2));
+
+            scene.add_entity(std::make_shared<Sphere>(Point{ 0.0, 0.0, -1.0}, 0.5, mat6));
+            scene.add_entity(std::make_shared<Sphere>(Point{-1.0, 0.0,  0.0}, 0.5, mat4));
+
+            const std::vector<Point> vertices{Point{0.5, -0.5, -1.5},
+                                              Point{1.5, -0.5, -1.5},
+                                              Point{1.0, -0.5, -0.5},
+                                              Point{1.0,  0.5, -1.0}};
+
+            const std::vector<std::array<size_t, 3>> indices{{0, 1, 2},
+                                                             {0, 1, 3},
+                                                             {0, 2, 3},
+                                                             {1, 2, 3}};
+
+            scene.add_entity(std::make_shared<Mesh>(vertices, indices, mat3));
+
+/*
             scene.add_entity(std::make_shared<Plane>(Point{0.0, -0.5, 0.0}, Vector<3>{0.0, -0.5, 0.0}, olive));
 
             scene.add_entity(std::make_shared<Sphere>(Point{ 0.0, 1.5,  1.5},   1.0,  light));
@@ -52,6 +114,7 @@ main(int   argc,
                                                              {1, 2, 3}};
 
             scene.add_entity(std::make_shared<Mesh>(vertices, indices, crimson));
+*/
 
             // Movimentação das entidades
 
@@ -73,6 +136,7 @@ main(int   argc,
         }
     case 'd':
         {
+/*
             camera = {look_from, look_at, {0.0, 1.0, 0.0}, 20.0, ((double)img_width) / img_height};
 
             background = {1.0, 0.44, 0.8};
@@ -84,6 +148,7 @@ main(int   argc,
             scene.add_entity(std::make_shared<Sphere>(Point{ 1.0, 0.0, -1.0},   0.5,    mirror));
             scene.add_entity(std::make_shared<Sphere>(Point{-1.0, 0.0, -1.0},   0.5,     glass));
             scene.add_entity(std::make_shared<Sphere>(Point{-1.0, 0.0, -1.0}, -0.45,     glass));
+*/
 
 /*
             const std::vector<Point> vertices{Point{0.5, -0.5, -1.5},
