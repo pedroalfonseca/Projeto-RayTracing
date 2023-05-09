@@ -31,6 +31,12 @@ public:
     {
     }
 
+    std::shared_ptr<Entity>
+    get_entity(const size_t i)
+    {
+        return entities[i];
+    }
+
     void
     add_entity(std::shared_ptr<Entity> entity)
     {
@@ -49,17 +55,16 @@ public:
           const Ray          &r,
                 Intersection &info) const
     {
-        const Vector<3> view_direction = unit_vector(info.point - cam_origin);
+        const Vector<3> view_direction = unit_vector(cam_origin - info.point);
 
-        const Color ambient_color = background * info.material.ka;
-
-        Color I = ambient_color;
+        Color I = background * info.material.ka;
 
         for (const auto &light : lights) {
             const Vector<3> light_direction = light.position - info.point;
 
-            const Ray    light_ray{info.point + info.face_normal * 0.01, light_direction};
-            const double k_shadow = get_k_shadow(light_ray, 0.0001, 1);
+            const Ray light_ray{info.point + info.face_normal * 0.01, light_direction};
+
+            const double k_shadow = get_k_shadow(light_ray, 0.0001, infinity);
 
             const Vector<3> reflected_direction = unit_vector(reflected_vector(-light_direction, info.face_normal));
 
@@ -68,7 +73,7 @@ public:
             const Color  diffuse_color  = tmp * info.material.kd * fmax(diffuse_factor, 0.0);
 
             const double specular_factor = pow(dot_product(reflected_direction, view_direction), info.material.p);
-            const Color  specular_color  = light.albedo * info.material.ks * specular_factor;
+            const Color  specular_color  = light.albedo * info.material.ks * fmax(specular_factor, 0.0);
 
             I += (diffuse_color + specular_color) * k_shadow;
         }

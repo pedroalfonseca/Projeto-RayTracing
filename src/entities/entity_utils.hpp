@@ -15,6 +15,21 @@ struct Material {
     double                   p;
 };
 
+const Material crimson  {std::make_shared<Matte>(Color{0.5, 0.1, 0.1}), 0.0, 0.1, 0.6, 0.3, 0.0, 0.0, 3.0};
+const Material indigo   {std::make_shared<Matte>(Color{0.1, 0.0, 0.5}), 0.0, 0.1, 0.6, 0.3, 0.0, 0.0, 3.0};
+const Material turquoise{std::make_shared<Matte>(Color{0.0, 0.5, 0.3}), 0.0, 0.1, 0.6, 0.3, 0.0, 0.0, 3.0};
+const Material olive    {std::make_shared<Matte>(Color{0.3, 0.4, 0.1}), 0.0, 0.1, 0.6, 0.3, 0.0, 0.0, 3.0};
+
+const Material chess{std::make_shared<Checker>(Color{0.0, 0.0, 0.0}, Color{1.0, 1.0, 1.0}), 0.0, 0.1, 0.6, 0.3, 0.0, 0.0, 3.0};
+
+const Material steel {std::make_shared<Matte>(Color{0.2, 0.2, 0.2}), 0.0, 0.1, 0.6, 0.6, 0.2, 0.0, 3.0};
+const Material gold  {std::make_shared<Matte>(Color{0.8, 0.6, 0.2}), 0.0, 0.1, 0.6, 0.6, 0.2, 0.0, 3.0};
+const Material mirror{std::make_shared<Matte>(Color{0.4, 0.4, 0.4}), 0.0, 0.1, 0.3, 0.6, 0.6, 0.0, 3.0};
+const Material ivory {std::make_shared<Matte>(Color{0.4, 0.4, 0.3}), 0.0, 0.1, 0.6, 0.6, 0.1, 0.0, 3.0};
+
+const Material glass{std::make_shared<Matte>(Color{0.0, 0.0, 1.0}), 1.5, 0.1, 0.0, 0.0, 0.1, 0.9, 3.0};
+const Material ruby {std::make_shared<Matte>(Color{0.3, 0.0, 0.0}), 1.5, 0.1, 0.6, 0.0, 0.1, 0.3, 3.0};
+
 struct Intersection {
     Point     point;
     Vector<3> face_normal;

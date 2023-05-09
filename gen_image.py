@@ -39,8 +39,7 @@ def main():
 
     if scene_option == "-c":
         print(
-            "\033[93mNote:\033[0m The camera is initially positioned at (0.0, 0.0, 4.0) and points at (0.0, 0.0, -1.0)."
-            "\n      If you are unsure about the coordinate system, see './img/cam_basis'.\n"
+            "\033[93mNote:\033[0m If you are unsure about the coordinate system, see './img/cam_basis.png'.\n"
         )
 
     print("Rendering image...")
