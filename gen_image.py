@@ -21,6 +21,26 @@ def wrong_usage():
     )
 
 
+def ppm_to_png(input_file, output_file):
+    with open(input_file, "rb") as f:
+        data = f.read().decode("utf-8")
+        data = data.strip().split("\n")
+
+        if data[0] != "P3":
+            exit("\033[93mError:\033[0m Input file is not a PPM file.")
+
+        width, height = map(int, data[1].split())
+        image = Image.new("RGB", (width, height))
+
+        pixel_data = [int(i) for i in " ".join(data[3:]).split()]
+        pixel_tuples = [
+            (pixel_data[i], pixel_data[i+1], pixel_data[i+2]) for i in range(0, len(pixel_data), 3)
+        ]
+
+        image.putdata(pixel_tuples)
+        image.save(output_file, "PNG")
+
+
 def main():
     if len(argv) != 3:
         wrong_usage()
@@ -49,8 +69,7 @@ def main():
     print("Done.\n")
 
     print("Generating PNG file...")
-    image = Image.open("./img/image.ppm")
-    image.save("./img/image.png")
+    ppm_to_png("./img/image.ppm", "./img/image.png")
     print("Done.\n")
 
     print("Cleaning up residual files...")
