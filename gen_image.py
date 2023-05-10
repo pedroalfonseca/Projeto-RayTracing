@@ -34,7 +34,7 @@ def ppm_to_png(input_file, output_file):
 
         pixel_data = [int(i) for i in " ".join(data[3:]).split()]
         pixel_tuples = [
-            (pixel_data[i], pixel_data[i+1], pixel_data[i+2]) for i in range(0, len(pixel_data), 3)
+            (pixel_data[i], pixel_data[i + 1], pixel_data[i + 2]) for i in range(0, len(pixel_data), 3)
         ]
 
         image.putdata(pixel_tuples)
@@ -74,7 +74,9 @@ def main():
 
     print("Cleaning up residual files...")
     system("rm a.out && rm ./img/image.ppm")
-    print("Done.")
+    print("Done.\n")
+
+    print("\033[93mNote:\033[0m The generated image is located in the './img' folder.")
 
 
 if __name__ == "__main__":

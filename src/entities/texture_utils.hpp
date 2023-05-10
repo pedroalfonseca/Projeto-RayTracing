@@ -2,7 +2,6 @@
 #define TEXTURE_UTILS_HPP
 
 #include "../optics/Ray.hpp"
-#include "../optics/optics_utils.hpp"
 
 #include <memory>
 

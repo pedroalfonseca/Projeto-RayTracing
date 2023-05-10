@@ -13,6 +13,9 @@ struct Material {
     double                   kr;
     double                   kt;
     double                   p;
+
+    Material &
+    operator=(const Material &other) = default;
 };
 
 const Material crimson  {std::make_shared<Matte>(Color{0.5, 0.1, 0.1}), 0.0, 0.1, 0.6, 0.3, 0.0, 0.0, 3.0};

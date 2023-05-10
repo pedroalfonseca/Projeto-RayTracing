@@ -60,26 +60,34 @@ main(int   argc,
 
             scene.add_entity(std::make_shared<Mesh>(vertices, indices, gold));
 
-            // Plano
+            scene.add_entity(std::make_shared<Mesh>(Point{0.2, 0.2, -1.5}, 0.1, 0.3, 8, 4, indigo));
+
+            // Translate plane
             //scene.get_entity(0)->move(0.0, -0.5, 0.0);
 
-            // Esfera
+            // Translate sphere (crimson)
             //scene.get_entity(1)->move(1.0, 1.0, -2.0);
 
-            // Malha
-            //scene.get_entity(4)->move(-0.5, 0.0, -1.0);
+            // Translate mesh (torus)
+            //scene.get_entity(5)->move(-0.2, -0.2, 1.5);
 
-            // Toda a cena (aproximação)
-            //scene.move(0.0, 0.0, 2.0);
+            // Translate scene
+            //scene.move(0.0, 0.4, 2.0);
 
-            // Toda a cena (afastamento)
-            //scene.move(0.0, 0.0, -2.0);
+            // Left front view
+            //camera.move(-4.0, 0.0, -3.0);
+            //camera.h_tilt(-60);
 
-            // Toda a cena (elevação)
-            //scene.move(0.0, 0.4, 0.0);
+            // Right back view
+            //camera.move(4.0, 0.0, -7.0);
+            //camera.h_tilt(120);
 
-            // Toda a cena (rebaixamento)
-            //scene.move(0.0, -0.4, 0.0);
+            // Top view
+            //camera.move(0.0, 8.0, -5.0);
+            //camera.v_tilt(-90);
+
+            // Far view
+            //camera.move(0.0, 0.0, 7.0);
 
             break;
         }
@@ -88,8 +96,8 @@ main(int   argc,
             img_width  = 400;
             img_height = 225;
 
-            look_from = {0.0, 0.0,  4.0};
-            look_at   = {0.0, 0.0, -1.0};
+            look_from = { -2.5, 0.2,  3.0};
+            look_at   = {-0.15, 0.0, -1.0};
 
             camera = {look_from, look_at, {0.0, 1.0, 0.0}, 20.0, (static_cast<double>(img_width) / img_height)};
 
@@ -99,27 +107,9 @@ main(int   argc,
 
             scene.add_entity(std::make_shared<Plane>(Point{0.0, -0.5, 0.0}, Vector<3>{0.0, -0.5, 0.0}, chess));
 
-            scene.add_entity(std::make_shared<Sphere>(Point{ 0.0, 0.0, -1.0}, 0.5, turquoise));
-            scene.add_entity(std::make_shared<Sphere>(Point{ 1.0, 0.0, -1.0}, 0.5,    mirror));
-            scene.add_entity(std::make_shared<Sphere>(Point{-1.0, 0.0, -1.0}, 0.5,     glass));
-
-            const std::vector<Point> vertices1{Point{-0.75, 0.75, -1.25},
-                                               Point{-0.25, 0.75, -1.25},
-                                               Point{ -0.5, 0.75, -0.75},
-                                               Point{ -0.5, 0.25,  -1.0}};
-
-            const std::vector<Point> vertices2{Point{0.75, 0.75, -1.25},
-                                               Point{0.25, 0.75, -1.25},
-                                               Point{ 0.5, 0.75, -0.75},
-                                               Point{ 0.5, 0.25,  -1.0}};
-
-            const std::vector<std::array<size_t, 3>> indices{{0, 1, 2},
-                                                             {0, 1, 3},
-                                                             {0, 2, 3},
-                                                             {1, 2, 3}};
-
-            scene.add_entity(std::make_shared<Mesh>(vertices1, indices, ivory));
-            scene.add_entity(std::make_shared<Mesh>(vertices2, indices,  ruby));
+            scene.add_entity(std::make_shared<Sphere>(Point{  0.0, 0.0, -1.0}, 0.5, turquoise));
+            scene.add_entity(std::make_shared<Sphere>(Point{  1.0, 0.0, -1.0}, 0.5,    mirror));
+            scene.add_entity(std::make_shared<Sphere>(Point{ -1.0, 0.0, -1.0}, 0.5,     glass));
 
             break;
         }
@@ -223,18 +213,18 @@ main(int   argc,
                     camera = {look_from, look_at, up, vfov, (static_cast<double>(img_width) / img_height)};
                 } else if (id == 'l') {
                     double lx, ly, lz;
-                    double Ir, Ig, Ib;
+                    double Ilr, Ilg, Ilb;
 
                     std::cin >> lx >> ly >> lz
-                             >> Ir >> Ig >> Ib;
+                             >> Ilr >> Ilg >> Ilb;
 
-                    scene.add_light({Point{lx, ly, lz}, Color{Ir, Ig, Ib}});
+                    scene.add_light({Point{lx, ly, lz}, Color{Ilr, Ilg, Ilb}});
                 } else if (id == 'a') {
-                    double Ir, Ig, Ib;
+                    double Iar, Iag, Iab;
 
-                    std::cin >> Ir >> Ig >> Ib;
+                    std::cin >> Iar >> Iag >> Iab;
 
-                    background = {Ir, Ig, Ib};
+                    background = {Iar, Iag, Iab};
                 } else
                     exit(1);
             }
@@ -244,37 +234,6 @@ main(int   argc,
     default:
         exit(1);
     }
-
-    // Visão do lado esquerdo 1
-    //camera.move(-4.0, 0.0, -3.0);
-    //camera.h_tilt(-60);
-
-    // Visão do lado esquerdo 2
-    //camera.move(-4.0, 0.0, -5.0);
-    //camera.h_tilt(-90);
-
-    // Visão do lado esquerdo 3
-    //camera.move(-4.0, 0.0, -7.0);
-    //camera.h_tilt(-120);
-
-    // Visão do lado direito 1
-    //camera.move(4.0, 0.0, -3.0);
-    //camera.h_tilt(60);
-
-    // Visão do lado direito 2
-    //camera.move(4.0, 0.0, -5.0);
-    //camera.h_tilt(90);
-
-    // Visão do lado direito 3
-    //camera.move(4.0, 0.0, -7.0);
-    //camera.h_tilt(120);
-
-    // Visão de cima
-    //camera.move(0.0, 8.0, -5.0);
-    //camera.v_tilt(-90);
-
-    // Visão afastado
-    //camera.move(0.0, 0.0, 7.0);
 
     Renderer renderer{img_width, img_height, samples_per_pixel, max_depth};
     renderer.render(camera, background, scene);
